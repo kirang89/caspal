@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-import operator
 from enum import Enum
+from .ast import *              # noqa
 
 
 class TokenType(Enum):
@@ -146,7 +146,7 @@ class Parser(object):
             self.advance()
             token = self.current_token
 
-        return int(res)
+        return Number(int(res))
 
     def term(self):
         token = self.current_token
@@ -168,10 +168,8 @@ class Parser(object):
             self.advance()
             res1 = self.term()
 
-            if op.type == TokenType.MULT:
-                res = res * res1
-            elif op.type == TokenType.DIV:
-                res = int(res / res1)
+            if op.type in (TokenType.MULT, TokenType.DIV):
+                res = BinOp(op=op.value, left=res, right=res1)
 
             op = self.current_token
 
@@ -186,10 +184,8 @@ class Parser(object):
             self.advance()
             res1 = self.factor()
 
-            if op.type == TokenType.PLUS:
-                res = res + res1
-            elif op.type == TokenType.MINUS:
-                res = res - res1
+            if op.type in (TokenType.PLUS, TokenType.MINUS):
+                res = BinOp(op=op.value, left=res, right=res1)
 
             op = self.current_token
 

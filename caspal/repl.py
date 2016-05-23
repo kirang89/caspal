@@ -10,11 +10,12 @@ class CaspalREPL(Cmd):
 
     def run(self, text):
         lexer = Lexer(text)
+        # print(lexer.get_all_tokens())
 
         parser = Parser(lexer)
-        res = parser.parse()
+        ast = parser.parse()
 
-        print(res)
+        print(ast.evaluate())
 
     def default(self, line):
         self.run(line)
