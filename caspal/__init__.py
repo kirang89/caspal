@@ -138,23 +138,43 @@ class Parser(object):
 
         return int(res)
 
+    def term(self):
+        return self.number()
+
+    def factor(self):
+        res = self.term()
+        op = self.current_token
+
+        while op.type in (TokenType.MULT, TokenType.DIV):
+            self.advance()
+            res1 = self.term()
+
+            if op.type == TokenType.MULT:
+                res = res * res1
+            elif op.type == TokenType.DIV:
+                res = int(res / res1)
+
+            op = self.current_token
+
+        return res
+
     def expression(self):
         """Parses an arithmetic expression"""
-        res1 = self.number()
+        res = self.factor()
         op = self.current_token
-        self.advance()
-        res2 = self.number()
 
-        if op.type == TokenType.PLUS:
-            return res1 + res2
-        elif op.type == TokenType.MINUS:
-            return res1 - res2
-        elif op.type == TokenType.MULT:
-            return res1 * res2
-        elif op.type == TokenType.DIV:
-            return int(res1 / res2)
+        while op.type in (TokenType.PLUS, TokenType.MINUS):
+            self.advance()
+            res1 = self.factor()
 
-        raise Exception('Unexpected Token: {}'.format(op))
+            if op.type == TokenType.PLUS:
+                res = res + res1
+            elif op.type == TokenType.MINUS:
+                res = res - res1
+
+            op = self.current_token
+
+        return res
 
     def parse(self):
         return self.expression()

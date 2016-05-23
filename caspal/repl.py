@@ -11,8 +11,6 @@ class CaspalREPL(Cmd):
     def run(self, text):
         lexer = Lexer(text)
 
-        # display_tokens(lexer)
-
         parser = Parser(lexer)
         res = parser.parse()
 
