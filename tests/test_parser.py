@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import unittest
-from caspal import *
+from caspal.lexer import Lexer
+from caspal.parser import Parser
 
 
 def caspalify(text):

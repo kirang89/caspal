@@ -1,4 +1,8 @@
-from caspal import *            # noqa
+# -*- coding: utf-8 -*-
+
+from . import version
+from .lexer import Lexer
+from .parser import Parser
 from cmd import Cmd
 
 
@@ -6,7 +10,7 @@ class CaspalREPL(Cmd):
     """The REPL for Caspal"""
 
     prompt = "caspal > "
-    intro = "Welcome to Caspal 0.0.1\n"
+    intro = "Welcome to Caspal {}\n".format(version)
 
     def run(self, text):
         lexer = Lexer(text)

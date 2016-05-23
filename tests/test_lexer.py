@@ -1,5 +1,8 @@
+# -*- coding: utf-8 -*-
+
 import unittest
-from caspal import *
+from caspal.token import Token, TokenType
+from caspal.lexer import Lexer
 
 
 class CaspalLexerTestCase(unittest.TestCase):
