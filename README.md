@@ -3,20 +3,43 @@
 A simple interpreter for a subset of Pascal written in Python, purely
 for education and pleasure.
 
-## Dependencies
+## Installing Dependencies
 
-Python 3.4
+```
+$ pip install -r requirements.txt
+```
+
+If you use Emacs with Elpy, add the following packages as well:
+```
+autopep8==1.2.4
+flake8==2.5.4
+importmagic==0.1.7
+jedi==0.9.0
+mccabe==0.4.0
+pep8==1.7.0
+pyflakes==1.0.0
+yapf==0.8.2
+```
+
+## Setup
+
+```
+$ chmod +x cpl
+```
 
 ## Running
 
-Do
+Start the REPL by running:
 ```
-chmod +x cpl
+$ ./cpl
 ```
 
-and start the REPL by running:
+## Testing
+
+Run tests using nose:
+
 ```
-./cpl
+$ env/bin/nosetests
 ```
 
 ## License
