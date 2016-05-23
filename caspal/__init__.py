@@ -22,6 +22,10 @@ class Token(object):
 
         self.type, self.value = type, value
 
+    def __eq__(self, other):
+        return self.type == other.type and \
+            self.value == other.value
+
     def __repr__(self):
         return 'Token({}, {})'.format(self.value, self.type)
 
@@ -82,6 +86,16 @@ class Lexer(object):
             return Token(TokenType.DIV, ch)
 
         raise Exception('Invalid char: {}'.format(ch))
+
+    def get_all_tokens(self):
+        """Fetches all tokens from a stream, at once."""
+        tokens = []
+        token = self.get_next_token()
+        while token is not None and token.type != TokenType.EOF:
+            tokens.append(token)
+            token = self.get_next_token()
+
+        return tokens
 
 
 def display_tokens(lexer):
