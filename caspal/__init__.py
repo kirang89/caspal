@@ -11,6 +11,8 @@ class TokenType(Enum):
     MULT = 4
     DIV = 5
     EOF = 6
+    LPAREN = 7
+    RPAREN = 8
 
 
 class Token(object):
@@ -85,6 +87,14 @@ class Lexer(object):
             self.advance()
             return Token(TokenType.DIV, ch)
 
+        if ch == '(':
+            self.advance()
+            return Token(TokenType.LPAREN, ch)
+
+        if ch == ')':
+            self.advance()
+            return Token(TokenType.RPAREN, ch)
+
         raise Exception('Invalid char: {}'.format(ch))
 
     def get_all_tokens(self):
@@ -139,7 +149,16 @@ class Parser(object):
         return int(res)
 
     def term(self):
-        return self.number()
+        token = self.current_token
+
+        if token.type == TokenType.LPAREN:
+            self.advance()
+            res = self.expression()
+            if self.current_token.type == TokenType.RPAREN:
+                self.advance()
+                return res
+        else:
+            return self.number()
 
     def factor(self):
         res = self.term()
