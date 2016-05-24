@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .token import Token, TokenType
+from .token import TokenType
 from .ast import *              # noqa
 
 
@@ -77,5 +77,38 @@ class Parser(object):
 
         return res
 
-    def parse(self):
+    def statement(self):
         return self.expression()
+
+    def program_header(self):
+        """Parse the header of a Caspal program"""
+        token_seq = [TokenType.PROGRAM, TokenType.NAME, TokenType.SEMICOLON]
+        for token_type in token_seq:
+            if self.current_token.type == token_type:
+                self.advance()
+            else:
+                raise Exception('Expected token of type {} but got {}'.format(
+                    token_type, self.current_token.type
+                ))
+
+    def program(self):
+        self.program_header()
+        if self.current_token.type == TokenType.BEGIN:
+            self.advance()
+        else:
+            raise Exception('Expected BEGIN, but got ' +
+                            self.current_token.value)
+
+        res = self.statement()
+
+        if self.current_token.type == TokenType.END:
+            self.advance()
+        else:
+            raise Exception('Expected END, but got ' +
+                            self.current_token.value)
+
+        if self.current_token.type == TokenType.DOT:
+            return res
+
+    def parse(self):
+        return self.program()

@@ -16,14 +16,15 @@ def caspalify(text):
 class CaspalParserTestCase(unittest.TestCase):
 
     def test_parse_arith_expr_with_precedence(self):
-        self.assertEqual(caspalify('1+4-2'), 3)
-        self.assertEqual(caspalify('1+4*2'), 9)
-        self.assertEqual(caspalify('1+4/2'), 3)
-        self.assertEqual(caspalify('1*4/2'), 2)
+        self.assertEqual(caspalify('PROGRAM example; BEGIN 1+4-2 END.'), 3)
+        self.assertEqual(caspalify('PROGRAM example; BEGIN 1+4*2 END.'), 9)
+        self.assertEqual(caspalify('PROGRAM example; BEGIN 1+4/2 END.'), 3)
+        self.assertEqual(caspalify('PROGRAM example; BEGIN 1*4/2 END.'), 2)
 
     def test_parse_arith_expr_with_user_precedence(self):
-        self.assertEqual(caspalify('2*(10/(2+3))'), 4)
-        self.assertEqual(caspalify('2*(2+3)'), 10)
+        self.assertEqual(
+            caspalify('PROGRAM example; BEGIN 2*(10/(2+3)) END.'), 4)
+        self.assertEqual(caspalify('PROGRAM example; BEGIN 2*(2+3) END.'), 10)
 
 
 if __name__ == '__main__':

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .token import Token, TokenType
+from .token import Token, TokenType, RESERVED_KEYWORDS
 
 
 class Lexer(object):
@@ -27,6 +27,18 @@ class Lexer(object):
         """Ignores whitespace character from stream"""
         while self.current_char is not None and self.current_char == ' ':
             self.advance()
+
+    def keyword(self):
+        """Fetches a keyword from character stream"""
+        ch = self.current_char
+        kw = ''
+
+        while ch is not None and ch.isalpha():
+            kw += ch
+            self.advance()
+            ch = self.current_char
+
+        return kw
 
     def get_next_token(self):
         ch = self.current_char
@@ -65,6 +77,22 @@ class Lexer(object):
         if ch == ')':
             self.advance()
             return Token(TokenType.RPAREN, ch)
+
+        if ch == ';':
+            self.advance()
+            return Token(TokenType.SEMICOLON, ch)
+
+        if ch.isalpha():
+            kw = self.keyword()
+
+            try:
+                return RESERVED_KEYWORDS[kw.lower()]
+            except:
+                return Token(TokenType.NAME, kw)
+
+        if ch == '.':
+            self.advance()
+            return Token(TokenType.DOT, '.')
 
         raise Exception('Invalid char: {}'.format(ch))
 

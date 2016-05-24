@@ -12,6 +12,13 @@ class TokenType(Enum):
     EOF = 6
     LPAREN = 7
     RPAREN = 8
+    BEGIN = 9
+    END = 10
+    DOT = 11
+    PROGRAM = 12
+    SEMICOLON = 13
+    VAR = 14
+    NAME = 15
 
 
 class Token(object):
@@ -29,3 +36,11 @@ class Token(object):
 
     def __repr__(self):
         return 'Token({}, {})'.format(self.value, self.type)
+
+
+RESERVED_KEYWORDS = {
+    'begin': Token(TokenType.BEGIN, 'BEGIN'),
+    'end': Token(TokenType.END, 'END'),
+    'var': Token(TokenType.VAR, 'Var'),
+    'program': Token(TokenType.PROGRAM, 'PROGRAM'),
+}
