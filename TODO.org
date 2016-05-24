@@ -1,9 +1,9 @@
 
-* TODOs [2/15]
+* Features [3/15]
 
 - [X] Variable Assignment
 - [X] Multiple Statements
-- [ ] Variable Declarations (without type spec)
+- [X] Variable Declarations (without type spec)
 - [ ] Comments
 - [ ] Data Types (Integer, String, Boolean)
 - [ ] Boolean (true/false)
@@ -16,3 +16,8 @@
 - [ ] Procedures
 - [ ] readln and writeln
 - [ ] div and mod operators
+
+
+* Misc [/]
+
+- [ ] Fixtures from files for running tests

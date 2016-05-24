@@ -83,10 +83,16 @@ class Lexer(object):
             if self.current_char == '=':
                 self.advance()
                 return Token(TokenType.ASSIGN, ':=')
+            else:
+                return Token(TokenType.COLON, ':')
 
         if ch == ';':
             self.advance()
             return Token(TokenType.SEMICOLON, ch)
+
+        if ch == ',':
+            self.advance()
+            return Token(TokenType.COMMA, ch)
 
         if ch.isalpha():
             kw = self.keyword()

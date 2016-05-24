@@ -111,15 +111,44 @@ class Parser(object):
                     token_type, self.current_token.type
                 ))
 
+    def declarations(self):
+        """Parse variable declaration(s)"""
+        vars = []
+
+        if self.current_token.type == TokenType.NAME:
+            vars.append(self.current_token.value)
+            self.advance()
+
+            while self.current_token.type == TokenType.COMMA:
+                self.advance()
+                vars.append(self.current_token.value)
+                self.advance()
+
+            if self.current_token.type == TokenType.SEMICOLON:
+                self.advance()
+                return Declaration(vars)
+        else:
+            raise Exception('Expected variable declaration but got {}'.format(
+                self.current_token.value
+            ))
+
     def program(self):
+        ast = Program()
+
         self.program_header()
+
+        # Check for declarations
+        if self.current_token.type == TokenType.VAR:
+            self.advance()
+            ast.declarations = self.declarations()
+
         if self.current_token.type == TokenType.BEGIN:
             self.advance()
         else:
             raise Exception('Expected BEGIN, but got ' +
                             self.current_token.value)
 
-        res = self.statement_list()
+        ast.main = self.statement_list()
 
         if self.current_token.type == TokenType.END:
             self.advance()
@@ -128,7 +157,7 @@ class Parser(object):
                             self.current_token.value)
 
         if self.current_token.type == TokenType.DOT:
-            return res
+            return ast
 
     def parse(self):
         return self.program()

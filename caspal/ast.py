@@ -60,7 +60,10 @@ class Assignment(AST):
         self.var, self.value = var, value
 
     def evaluate(self):
-        ENVIRONMENT[self.var] = self.value.evaluate()
+        if self.var in ENVIRONMENT.keys():
+            ENVIRONMENT[self.var] = self.value.evaluate()
+        else:
+            raise Exception('Variable {} not declared'.format(self.var))
 
     def __repr__(self):
         return 'Assignment(var={}, value={})'.format(
@@ -83,3 +86,37 @@ class CompoundStatement(AST):
 
     def __repr__(self):
         return 'CompoundStatement({})'.format(self.statements)
+
+
+class Declaration(AST):
+    """The AST node that takes care of variable declarations"""
+
+    def __init__(self, vars):
+        self.vars = vars
+
+    def evaluate(self):
+        for var in self.vars:
+            ENVIRONMENT[var] = None
+
+    def __repr__(self):
+        return 'Declaration({})'.format(self.vars)
+
+
+class Program(AST):
+    """The AST node that represents the PROGRAM block
+
+    The PROGRAM block in Caspal consists of:
+    - variable declarations
+    - the main block
+    """
+
+    def __init__(self, declarations=None, main=None):
+        self.declarations = declarations or []
+        self.main = main
+
+    def evaluate(self):
+        self.declarations.evaluate()
+        self.main.evaluate()
+
+    def __repr__(self):
+        return 'Program(decl={}, main={})'.format(self.declarations, self.main)
