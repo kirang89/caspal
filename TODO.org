@@ -1,0 +1,18 @@
+
+* TODOs [0/15]
+
+- [ ] Variable Declarations (without type spec)
+- [ ] Variable Assignment
+- [ ] Multiple Statements
+- [ ] Data Types (Integer, String, Boolean)
+- [ ] readln and writeln
+- [ ] div and mod operators
+- [ ] Comments
+- [ ] Boolean (true/false)
+- [ ] Boolean Operators (and, or, not)
+- [ ] Relational Operators
+- [ ] If
+- [ ] Loops
+- [ ] Arrays
+- [ ] Functions
+- [ ] Procedures
