@@ -90,6 +90,16 @@ class Parser(object):
     def statement(self):
         return self.assignment()
 
+    def statement_list(self):
+        stmts = [self.statement()]
+
+        while all([self.current_token is not None,
+                   self.current_token.type == TokenType.SEMICOLON]):
+            self.advance()
+            stmts.append(self.statement())
+
+        return CompoundStatement(stmts)
+
     def program_header(self):
         """Parse the header of a Caspal program"""
         token_seq = [TokenType.PROGRAM, TokenType.NAME, TokenType.SEMICOLON]
@@ -109,7 +119,7 @@ class Parser(object):
             raise Exception('Expected BEGIN, but got ' +
                             self.current_token.value)
 
-        res = self.statement()
+        res = self.statement_list()
 
         if self.current_token.type == TokenType.END:
             self.advance()

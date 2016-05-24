@@ -66,3 +66,20 @@ class Assignment(AST):
         return 'Assignment(var={}, value={})'.format(
             self.var, self.value
         )
+
+
+class CompoundStatement(AST):
+    """The AST node of a compound statement
+
+    a.k.a node that represents multiple statements seperated by ;
+    """
+
+    def __init__(self, statements):
+        self.statements = statements
+
+    def evaluate(self):
+        for statement in self.statements:
+            statement.evaluate()
+
+    def __repr__(self):
+        return 'CompoundStatement({})'.format(self.statements)

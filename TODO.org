@@ -1,13 +1,11 @@
 
-* TODOs [0/15]
+* TODOs [2/15]
 
+- [X] Variable Assignment
+- [X] Multiple Statements
 - [ ] Variable Declarations (without type spec)
-- [ ] Variable Assignment
-- [ ] Multiple Statements
-- [ ] Data Types (Integer, String, Boolean)
-- [ ] readln and writeln
-- [ ] div and mod operators
 - [ ] Comments
+- [ ] Data Types (Integer, String, Boolean)
 - [ ] Boolean (true/false)
 - [ ] Boolean Operators (and, or, not)
 - [ ] Relational Operators
@@ -16,3 +14,5 @@
 - [ ] Arrays
 - [ ] Functions
 - [ ] Procedures
+- [ ] readln and writeln
+- [ ] div and mod operators
