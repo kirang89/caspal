@@ -77,8 +77,18 @@ class Parser(object):
 
         return res
 
+    def assignment(self):
+        """Parse an assignment statement in a Caspal program"""
+        var = None
+        if self.current_token.type == TokenType.NAME:
+            var = self.current_token.value
+            self.advance()
+            if self.current_token.type == TokenType.ASSIGN:
+                self.advance()
+                return Assignment(var, self.expression())
+
     def statement(self):
-        return self.expression()
+        return self.assignment()
 
     def program_header(self):
         """Parse the header of a Caspal program"""

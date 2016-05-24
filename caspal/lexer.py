@@ -78,6 +78,12 @@ class Lexer(object):
             self.advance()
             return Token(TokenType.RPAREN, ch)
 
+        if ch == ':':
+            self.advance()
+            if self.current_char == '=':
+                self.advance()
+                return Token(TokenType.ASSIGN, ':=')
+
         if ch == ';':
             self.advance()
             return Token(TokenType.SEMICOLON, ch)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import operator
+from . import ENVIRONMENT
 
 
 class AST(object):
@@ -49,4 +50,19 @@ class BinOp(AST):
     def __repr__(self):
         return 'BinOp(op={}, left={}, right={})'.format(
             self.op, self.left, self.right
+        )
+
+
+class Assignment(AST):
+    """The AST node of an assignment statement"""
+
+    def __init__(self, var, value):
+        self.var, self.value = var, value
+
+    def evaluate(self):
+        ENVIRONMENT[self.var] = self.value.evaluate()
+
+    def __repr__(self):
+        return 'Assignment(var={}, value={})'.format(
+            self.var, self.value
         )

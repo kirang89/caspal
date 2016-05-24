@@ -20,6 +20,15 @@ class CaspalREPL(Cmd):
         ast = parser.parse()
 
         print(ast.evaluate())
+        self.show_env()
+
+    def show_env(self):
+        from . import ENVIRONMENT
+
+        print("=======================================================")
+        print("Environment:\n")
+        print(ENVIRONMENT)
+        print("=======================================================")
 
     def default(self, line):
         self.run(line)

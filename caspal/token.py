@@ -19,6 +19,7 @@ class TokenType(Enum):
     SEMICOLON = 13
     VAR = 14
     NAME = 15
+    ASSIGN = 16
 
 
 class Token(object):
