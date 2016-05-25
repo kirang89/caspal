@@ -3,6 +3,10 @@
 from .token import TokenType
 from .ast import *              # noqa
 
+TYPES_MAP = {
+    'integer': int
+}
+
 
 class Parser(object):
     """Parser for Caspal.
@@ -32,7 +36,7 @@ class Parser(object):
             self.advance()
             token = self.current_token
 
-        return Number(int(res))
+        return Number(TYPES_MAP['integer'], int(res))
 
     def term(self):
         token = self.current_token
@@ -124,9 +128,17 @@ class Parser(object):
                 vars.append(self.current_token.value)
                 self.advance()
 
-            if self.current_token.type == TokenType.SEMICOLON:
+            if self.current_token.type == TokenType.COLON:
                 self.advance()
-                return Declaration(vars)
+                if self.current_token.type == TokenType.TYPE_INTEGER:
+                    self.advance()
+                    if self.current_token.type == TokenType.SEMICOLON:
+                        self.advance()
+                        return Declaration(vars)
+
+            raise Exception('Unexpected Token: {}'.format(
+                self.current_token.value
+            ))
         else:
             raise Exception('Expected variable declaration but got {}'.format(
                 self.current_token.value

@@ -18,11 +18,11 @@ class AST(object):
 class Number(AST):
     """The AST node for a number(integer)"""
 
-    def __init__(self, value):
-        self.value = value
+    def __init__(self, type, value):
+        self.type, self.value = type, value
 
     def evaluate(self):
-        return self.value
+        return self.type(self.value)
 
     def __repr__(self):
         return 'Number({})'.format(self.value)
@@ -44,6 +44,12 @@ class BinOp(AST):
         }
 
         operation = op_map[self.op]
+
+        if isinstance(self.left, Number) and isinstance(self.right, Number):
+            msg = 'Type Mismatch: {} and {}'.format(
+                self.left.type, self.right.type
+            )
+            assert self.left.type == self.right.type, msg
 
         return operation(self.left.evaluate(), self.right.evaluate())
 

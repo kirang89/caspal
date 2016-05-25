@@ -22,6 +22,7 @@ class TokenType(Enum):
     COLON = 16
     ASSIGN = 17
     COMMA = 18
+    TYPE_INTEGER = 19
 
 
 class Token(object):
@@ -46,4 +47,8 @@ RESERVED_KEYWORDS = {
     'end': Token(TokenType.END, 'END'),
     'var': Token(TokenType.VAR, 'Var'),
     'program': Token(TokenType.PROGRAM, 'PROGRAM'),
+}
+
+DATATYPES = {
+    'integer': Token(TokenType.TYPE_INTEGER, 'integer')
 }

@@ -1,11 +1,12 @@
+#+STARTUP: showall
 
 * Features [3/15]
 
 - [X] Variable Assignment
 - [X] Multiple Statements
 - [X] Variable Declarations (without type spec)
-- [ ] Comments
 - [ ] Data Types (Integer, String, Boolean)
+- [ ] Comments
 - [ ] Boolean (true/false)
 - [ ] Boolean Operators (and, or, not)
 - [ ] Relational Operators

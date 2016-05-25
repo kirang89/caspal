@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .token import Token, TokenType, RESERVED_KEYWORDS
+from .token import Token, TokenType, RESERVED_KEYWORDS, DATATYPES
 
 
 class Lexer(object):
@@ -97,10 +97,9 @@ class Lexer(object):
         if ch.isalpha():
             kw = self.keyword()
 
-            try:
-                return RESERVED_KEYWORDS[kw.lower()]
-            except:
-                return Token(TokenType.NAME, kw)
+            return RESERVED_KEYWORDS.get(kw.lower()) or \
+                DATATYPES.get(kw) or \
+                Token(TokenType.NAME, kw)
 
         if ch == '.':
             self.advance()
