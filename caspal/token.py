@@ -23,6 +23,7 @@ class TokenType(Enum):
     ASSIGN = 17
     COMMA = 18
     TYPE_INTEGER = 19
+    TYPE_REAL = 20
 
 
 class Token(object):
@@ -50,5 +51,6 @@ RESERVED_KEYWORDS = {
 }
 
 DATATYPES = {
-    'integer': Token(TokenType.TYPE_INTEGER, 'integer')
+    'integer': Token(TokenType.TYPE_INTEGER, 'integer'),
+    'real': Token(TokenType.TYPE_REAL, 'real')
 }

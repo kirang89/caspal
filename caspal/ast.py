@@ -66,14 +66,16 @@ class Assignment(AST):
         self.var, self.value = var, value
 
     def evaluate(self):
-        if self.var in ENVIRONMENT.keys():
-            ENVIRONMENT[self.var] = self.value.evaluate()
+        if self.var.name in ENVIRONMENT.keys():
+            _, _type = ENVIRONMENT[self.var.name]
+            val = self.value.evaluate()
+            ENVIRONMENT[self.var.name] = (_type(val), _type)
         else:
-            raise Exception('Variable {} not declared'.format(self.var))
+            raise Exception('Variable {} not declared'.format(self.var.name))
 
     def __repr__(self):
         return 'Assignment(var={}, value={})'.format(
-            self.var, self.value
+            self.var.name, self.value
         )
 
 
@@ -101,11 +103,25 @@ class Declaration(AST):
         self.vars = vars
 
     def evaluate(self):
-        for var in self.vars:
-            ENVIRONMENT[var] = None
+        for var, var_type in self.vars:
+            ENVIRONMENT[var] = (None, var_type)
 
     def __repr__(self):
         return 'Declaration({})'.format(self.vars)
+
+
+class Variable(AST):
+    """The AST node that takes care of variables"""
+
+    def __init__(self, name):
+        self.name = name
+
+    def evaluate(self):
+        value, _type = ENVIRONMENT[self.name]
+        return _type(value)
+
+    def __repr__(self):
+        return 'Variable({})'.format(self.name)
 
 
 class Program(AST):

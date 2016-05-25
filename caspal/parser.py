@@ -4,7 +4,8 @@ from .token import TokenType
 from .ast import *              # noqa
 
 TYPES_MAP = {
-    'integer': int
+    'integer': int,
+    'real': float
 }
 
 
@@ -30,13 +31,21 @@ class Parser(object):
         """
         res = ''
         token = self.current_token
+        _type = int
 
         while token is not None and token.type == TokenType.NUMBER:
             res = res + token.value
             self.advance()
+
+            # Check for decimal point
+            if self.current_token.type == TokenType.DOT:
+                res = res + '.'
+                _type = float
+                self.advance()
+
             token = self.current_token
 
-        return Number(TYPES_MAP['integer'], int(res))
+        return Number(_type, _type(res))
 
     def term(self):
         token = self.current_token
@@ -85,7 +94,7 @@ class Parser(object):
         """Parse an assignment statement in a Caspal program"""
         var = None
         if self.current_token.type == TokenType.NAME:
-            var = self.current_token.value
+            var = Variable(self.current_token.value)
             self.advance()
             if self.current_token.type == TokenType.ASSIGN:
                 self.advance()
@@ -130,11 +139,24 @@ class Parser(object):
 
             if self.current_token.type == TokenType.COLON:
                 self.advance()
-                if self.current_token.type == TokenType.TYPE_INTEGER:
+                if self.current_token.type in (TokenType.TYPE_INTEGER,
+                                               TokenType.TYPE_REAL):
+
+                    _type = None
+                    if self.current_token.type == TokenType.TYPE_INTEGER:
+                        _type = int
+                    elif self.current_token.type == TokenType.TYPE_REAL:
+                        _type = float
+                    else:
+                        raise Exception('Invalid type: {}'.format(
+                            self.current_token.type
+                        ))
+
                     self.advance()
+
                     if self.current_token.type == TokenType.SEMICOLON:
                         self.advance()
-                        return Declaration(vars)
+                        return Declaration([(v, _type) for v in vars])
 
             raise Exception('Unexpected Token: {}'.format(
                 self.current_token.value
