@@ -25,7 +25,7 @@ class Lexer(object):
 
     def ignore_whitespace(self):
         """Ignores whitespace character from stream"""
-        while self.current_char is not None and self.current_char == ' ':
+        while self.current_char is not None and self.current_char.isspace():
             self.advance()
 
     def keyword(self):
