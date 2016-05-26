@@ -28,6 +28,12 @@ class Lexer(object):
         while self.current_char is not None and self.current_char.isspace():
             self.advance()
 
+    def comment(self):
+        """Ignores comments"""
+        while self.current_char is not '}':
+            self.advance()
+        self.advance()
+
     def keyword(self):
         """Fetches a keyword from character stream"""
         ch = self.current_char
@@ -49,6 +55,15 @@ class Lexer(object):
         if ch.isspace():
             self.ignore_whitespace()
             ch = self.current_char
+
+        if ch == '{':
+            self.comment()
+            self.ignore_whitespace()
+
+            ch = self.current_char
+            # Handle case where comment occurs after 'END.'
+            if ch is None:
+                return Token(TokenType.EOF, None)
 
         if ch.isdigit():
             self.advance()
